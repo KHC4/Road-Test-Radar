@@ -209,7 +209,7 @@ def open_test_centers_window():
 # Login button
 def call_login_function():
     if threading.active_count() > 1:
-        pass
+        print("Currently Running")
     else:
         x = threading.Thread(target=login)
         x.start()
@@ -218,7 +218,7 @@ def call_login_function():
 # Check Dates button
 def call_check_function():
     if threading.active_count() > 1:
-        pass
+        print("Currently Running")
     else:
         y = threading.Thread(target=date_available, args=(selected_dates_month1, selected_dates_month2))
         y.start()
@@ -226,7 +226,7 @@ def call_check_function():
 
 def call_restart_function():
     if threading.active_count() > 1:
-        pass
+        print("Currently Running")
     else:
         x = threading.Thread(target=restart)
         x.start()

@@ -22,7 +22,6 @@ second_month_check = False
 if int(today) > 25:
     second_month_check = True
 
-
 loc = ["Brampton", "Guelph", "Mississauga", "Orangeville", "Hamilton", "Brantford", "Kitchener"]
 loc_id = {'Brampton': 'targetLoc2', 'Guelph': 'targetLoc7', 'Mississauga': 'targetLoc12', 'Orangeville': 'targetLoc15',
           'Hamilton': 'targetLoc8', 'Brantford': 'targetLoc3', 'Kitchener': 'targetLoc9'}
@@ -91,13 +90,15 @@ def check(selected_dates_month1, selected_dates_month2, location, month):
             time_slots = [(slot.find_element(By.CSS_SELECTOR, 'button')).get_attribute('aria-label') for slot in times]
             if month == 1 and selected_dates_month1[date_int][0]:
                 for time_slot in time_slots:
-                    if location in selected_dates_month1[date_int][1].keys() and time_slot in selected_dates_month1[date_int][1][location]:
+                    if location in selected_dates_month1[date_int][1].keys() and time_slot in \
+                            selected_dates_month1[date_int][1][location]:
                         pass
                     else:
                         return [False, [location, time_slots, month, date_int]]
             elif month == 2 and selected_dates_month2[date_int][0]:
                 for time_slot in time_slots:
-                    if location in selected_dates_month2[date_int][1].keys() and time_slot in selected_dates_month2[date_int][1][location]:
+                    if location in selected_dates_month2[date_int][1].keys() and time_slot in \
+                            selected_dates_month2[date_int][1][location]:
                         pass
                     else:
                         return [False, [location, time_slots, month, date_int]]
@@ -109,8 +110,12 @@ def date_available(selected_dates_month1, selected_dates_month2):
         selected = [line.strip() for line in file]
     i = 0
     driver.find_element(By.ID, loc_id[selected[0]]).click()
-    driver.find_element(By.XPATH,
-                        '//*[@id="main"]/app-drivetest-locations/div/div/div[6]/app-progress-button/button').click()
+    try:
+        driver.find_element(By.XPATH,
+                            '//*[@id="main"]/app-drivetest-locations/div/div/div[6]/app-progress-button/button').click()
+    except Exception:
+        driver.find_element(By.XPATH,
+                            '//*[@id="main"]/app-drivetest-locations/div/div/div[5]/app-progress-button/button').click()
     a, b = check(selected_dates_month1, selected_dates_month2, selected[i], 1)
     while a:
         time.sleep(10)
